@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct Line {
+struct TypedLine : Equatable {
   let type: LineType
   let text: String
 }

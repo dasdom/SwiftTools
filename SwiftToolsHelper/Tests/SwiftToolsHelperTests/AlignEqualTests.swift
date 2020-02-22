@@ -7,10 +7,10 @@ import XCTest
 
 final class AlignEqualTests: XCTestCase {
   
-  func test_alignEquals_2Lines() {
+  func test_alignEquals_twoLinesWithEquals() {
     let input = [
-      "let a =      getA()",
-      "let foobar = getFoobar()"
+      TypedLine(type: .codeWithEquals, text: "let a =      getA()"),
+      TypedLine(type: .codeWithEquals, text: "let foobar = getFoobar()"),
     ]
     
     let result = SwiftToolsHelper.alignEquals(in: input)
@@ -21,11 +21,11 @@ final class AlignEqualTests: XCTestCase {
     ]
     XCTAssertEqual(expectedResult, result)
   }
-  
+
   func test_alignEquals_2Lines_spaceBeforeEqual() {
     let input = [
-      "let a           = getA()",
-      "let foobar      = getFoobar()"
+      TypedLine(type: .codeWithEquals, text: "let a           = getA()"),
+      TypedLine(type: .codeWithEquals, text: "let foobar      = getFoobar()")
     ]
     
     let result = SwiftToolsHelper.alignEquals(in: input)
@@ -39,11 +39,11 @@ final class AlignEqualTests: XCTestCase {
   
   func test_alignEquals_5Lines() {
     let input = [
-      "let a = getA()",
-      "let foobar = getFoobar()",
-      "let b = getA()",
-      "let baz = getFoobar()",
-      "let c = getA()"
+      TypedLine(type: .codeWithEquals, text: "let a = getA()"),
+      TypedLine(type: .codeWithEquals, text: "let foobar = getFoobar()"),
+      TypedLine(type: .codeWithEquals, text: "let b = getA()"),
+      TypedLine(type: .codeWithEquals, text: "let baz = getFoobar()"),
+      TypedLine(type: .codeWithEquals, text: "let c = getA()")
     ]
     
     let result = SwiftToolsHelper.alignEquals(in: input)
@@ -60,9 +60,9 @@ final class AlignEqualTests: XCTestCase {
   
   func test_alignEquals_interceptedLine() {
     let input = [
-      "let a = getA()",
-      "foobar()",
-      "let blabla = getA()"
+      TypedLine(type: .codeWithEquals, text: "let a = getA()"),
+      TypedLine(type: .otherCode, text: "foobar()"),
+      TypedLine(type: .codeWithEquals, text: "let blabla = getA()")
     ]
     
     let result = SwiftToolsHelper.alignEquals(in: input)
@@ -77,9 +77,9 @@ final class AlignEqualTests: XCTestCase {
   
   func test_alignEquals_ignoresComments() {
     let input = [
-      "// let a  = getA()",
-      "let b = getA()",
-      "let blabla = getA()"
+      TypedLine(type: .inlineComment, text: "// let a  = getA()"),
+      TypedLine(type: .codeWithEquals, text: "let b = getA()"),
+      TypedLine(type: .codeWithEquals, text: "let blabla = getA()")
     ]
     
     let result = SwiftToolsHelper.alignEquals(in: input)
@@ -92,22 +92,4 @@ final class AlignEqualTests: XCTestCase {
     XCTAssertEqual(expectedResult, result)
   }
   
-  func test_alignEquals_ignoresMultilineComments() {
-    let input = [
-      "let a  = getA()",
-      "let a  = getA() */",
-      "let b = getA()",
-      "let blabla = getA()"
-    ]
-    
-    let result = SwiftToolsHelper.alignEquals(in: input)
-    
-    let expectedResult = [
-      "let a  = getA()",
-      "let a  = getA() */",
-      "let b      = getA()",
-      "let blabla = getA()"
-    ]
-    XCTAssertEqual(expectedResult, result)
-  }
 }

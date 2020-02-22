@@ -4,7 +4,11 @@
 
 import Foundation
 
-enum LineType {
-  case comment
-  case code
+enum LineType : String, Equatable {
+  case startOfMultilineComment
+  case endOfMultilineComment
+  case withinMultilineComment
+  case inlineComment
+  case otherCode
+  case codeWithEquals
 }
