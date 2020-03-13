@@ -9,6 +9,10 @@ enum LineType : String, Equatable {
   case endOfMultilineComment
   case withinMultilineComment
   case inlineComment
+  case inlineFuncDeclaration
+  case startOfMultilineFuncDeclaration
+  case endOfMultilineFuncDeclaration
+  case withinMultilineFuncDeclaration
   case otherCode
   case codeWithEquals
 }

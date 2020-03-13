@@ -108,4 +108,51 @@ final class TypedLineTests: XCTestCase {
     ]
     XCTAssertEqual(expectedResult, result)
   }
+  
+  func test_type_inlineFuncDeclaration() {
+    let input = [
+      "func a() {"
+    ]
+    
+    let result = SwiftToolsHelper.typedLines(from: input)
+    
+    let expectedResult = [
+      TypedLine(type: .inlineFuncDeclaration, text: "func a() {")
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
+  
+  func test_type_multilineFuncDeclaration() {
+    let input = [
+      "func a(a: A",
+      "       b: B",
+      "       c: C) {"
+    ]
+    
+    let result = SwiftToolsHelper.typedLines(from: input)
+    
+    let expectedResult = [
+      TypedLine(type: .startOfMultilineFuncDeclaration, text: "func a(a: A"),
+      TypedLine(type: .withinMultilineFuncDeclaration, text: "       b: B"),
+      TypedLine(type: .endOfMultilineFuncDeclaration, text: "       c: C) {")
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
+  
+  func test_type_multilineFuncDeclaration_andOtherCode() {
+    let input = [
+      "func a(a: A",
+      "       b: B) {",
+      "    foo()"
+    ]
+    
+    let result = SwiftToolsHelper.typedLines(from: input)
+    
+    let expectedResult = [
+      TypedLine(type: .startOfMultilineFuncDeclaration, text: "func a(a: A"),
+      TypedLine(type: .endOfMultilineFuncDeclaration, text: "       b: B) {"),
+      TypedLine(type: .otherCode, text: "    foo()")
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
 }
