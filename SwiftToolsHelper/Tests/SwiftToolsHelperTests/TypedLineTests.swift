@@ -155,4 +155,21 @@ final class TypedLineTests: XCTestCase {
     ]
     XCTAssertEqual(expectedResult, result)
   }
+  
+  func test_type_import() {
+    let input = [
+      "import UIKit",
+      "import Foundation",
+      "import MapKit"
+    ]
+    
+    let result = SwiftToolsHelper.typedLines(from: input)
+    
+    let expectedResult = [
+      TypedLine(type: .import, text: "import UIKit"),
+      TypedLine(type: .import, text: "import Foundation"),
+      TypedLine(type: .import, text: "import MapKit"),
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
 }

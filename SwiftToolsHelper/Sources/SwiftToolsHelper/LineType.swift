@@ -15,4 +15,5 @@ enum LineType : String, Equatable {
   case withinMultilineFuncDeclaration
   case otherCode
   case codeWithEquals
+  case `import`
 }

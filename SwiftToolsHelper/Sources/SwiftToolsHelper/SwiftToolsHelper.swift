@@ -55,6 +55,13 @@ public struct SwiftToolsHelper {
     
     return String(format: "%@let <#name#> = UIColor(red: %.3f, green: %.3f, blue: %.3f, alpha: %.3f)", indentString, r, g, b, a)
   }
+  
+  public static func sortImport(in lines: [String]) -> [String] {
+    
+    let typed = typedLines(from: lines)
+    return sortImport(in: typed)
+  }
+  
 }
 
 extension SwiftToolsHelper {
@@ -102,6 +109,8 @@ extension SwiftToolsHelper {
         typedLines.append(TypedLine(type: .endOfMultilineFuncDeclaration, text: line))
       } else if line.isMatching(regex: "\\s+=\\s+") {
         typedLines.append(TypedLine(type: .codeWithEquals, text: line))
+      } else if line.isMatching(regex: "^import") {
+        typedLines.append(TypedLine(type: .import, text: line))
       } else {
         typedLines.append(TypedLine(type: .otherCode, text: line))
       }
@@ -160,6 +169,19 @@ extension SwiftToolsHelper {
     let rawlines = lines.joined(separator: "\n")
     return "protocol <#Protocol Name#> {\n\(rawlines)\n}\n"
   }
+  
+  static func sortImport(in lines: [TypedLine]) -> [String] {
+     
+     let sortedImportLines = lines.filter({ $0.type == .import }).sorted(by: { $0.text < $1.text })
+     
+     guard let indexOfFirstImport = lines.firstIndex(where: { $0.type == .import }) else {
+       return lines.map({ $0.text })
+     }
+     
+     var typedWithSortedImport = lines.filter({ $0.type != .import })
+     typedWithSortedImport.insert(contentsOf: sortedImportLines, at: indexOfFirstImport)
+     return typedWithSortedImport.map({ $0.text })
+   }
 }
 
 // MARK: - Helper Methods

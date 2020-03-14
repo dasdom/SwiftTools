@@ -5,7 +5,6 @@
 import Foundation
 import XcodeKit
 import SwiftToolsHelper
-import AppKit
 import UserNotifications
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
@@ -39,14 +38,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         if let lines = Array(lines.subarray(with: range)) as? [String] {
         
           SwiftToolsHelper.protocolFromMethods(in: lines)
-//          if let url = URL(string: "/usr/bin/osascript") {
-//            do {
-//              try Process.run(url, arguments: ["-e 'display notification \"copied to pasteboard\" with title \"Protocol Definitions\""], terminationHandler: nil)
-//            } catch {
-//              print("error \(error)")
-//            }
-//          }
-          
+
           let center = UNUserNotificationCenter.current()
           center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
               
@@ -77,7 +69,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             // Schedule the request with the system.
             let notificationCenter = UNUserNotificationCenter.current()
             notificationCenter.add(request) { (error) in
-              if error != nil {
+              if let error = error {
                 print("error \(error)")
               }
             }
@@ -111,6 +103,13 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         lines.insert(result, at: startLine+1)
       }
       
+    } else if identifier.hasSuffix(".SortImports") {
+      
+      if let lines = lines as? [String] {
+        let result = SwiftToolsHelper.sortImport(in: lines)
+        buffer.lines.removeAllObjects()
+        buffer.lines.addObjects(from: result)
+      }
     }
   }
   
