@@ -33,15 +33,15 @@ public struct SwiftToolsHelper {
     var b = CGFloat(0)
     var a = CGFloat(0)
     if rgbValue > 0xffffff {
-        r = CGFloat((rgbValue & 0xFF000000) >> 24) / 255.0
-        g = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
-        b = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
-        a = CGFloat((rgbValue & 0xFF)) / 255.0
+      r = CGFloat((rgbValue & 0xFF000000) >> 24) / 255.0
+      g = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
+      b = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
+      a = CGFloat((rgbValue & 0xFF)) / 255.0
     } else {
-        r = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
-        g = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
-        b = CGFloat((rgbValue & 0xFF)) / 255.0
-        a = 1.0
+      r = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
+      g = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
+      b = CGFloat((rgbValue & 0xFF)) / 255.0
+      a = 1.0
     }
     
     var indentString = ""
@@ -73,7 +73,7 @@ extension SwiftToolsHelper {
     var inMultilineFuncDeclaration = false
     
     for line in lines {
-     
+      
       if line.isMatching(regex: "\\*/") {
         if inMultilineComment {
           inMultilineComment = false
@@ -119,25 +119,25 @@ extension SwiftToolsHelper {
   }
   
   static func alignEquals(in typedLines: [TypedLine]) -> [String] {
-
+    
     let normalizedLines = typedLines.map { typedLine -> TypedLine in
-
+      
       if typedLine.type != .codeWithEquals {
         return typedLine
       }
-
+      
       return replace(pattern: "\\s+=\\s+", with: " = ", in: typedLine)
     }
-
+    
     let maxEqualPosition = maxOffsetOfFirst(character: "=", in: normalizedLines)
-
+    
     let resultLinesText = normalizedLines.map { line -> String in
-
+      
       let text = line.text
       if line.type != .codeWithEquals {
         return text
       }
-
+      
       if let index = text.firstIndex(of: "="), index.utf16Offset(in: text) < maxEqualPosition {
         var spaces = ""
         for _ in 0..<maxEqualPosition - index.utf16Offset(in: text) {
@@ -147,7 +147,7 @@ extension SwiftToolsHelper {
       }
       return line.text
     }
-
+    
     return resultLinesText
   }
   
@@ -171,17 +171,34 @@ extension SwiftToolsHelper {
   }
   
   static func sortImport(in lines: [TypedLine]) -> [String] {
-     
-     let sortedImportLines = lines.filter({ $0.type == .import }).sorted(by: { $0.text < $1.text })
-     
-     guard let indexOfFirstImport = lines.firstIndex(where: { $0.type == .import }) else {
-       return lines.map({ $0.text })
-     }
-     
-     var typedWithSortedImport = lines.filter({ $0.type != .import })
-     typedWithSortedImport.insert(contentsOf: sortedImportLines, at: indexOfFirstImport)
-     return typedWithSortedImport.map({ $0.text })
-   }
+    
+    let sortedImportLines = lines.filter({ $0.type == .import }).sorted(by: { $0.text < $1.text })
+    
+    let firstParty = appleFrameworks()
+    
+    var sortedFirstPartyImportLines: [TypedLine] = []
+    var sortedThirdPartyImportLines: [TypedLine] = []
+    for importLine in sortedImportLines {
+      if let framework = importLine.text.components(separatedBy: " ").last {
+        if firstParty.contains(framework) {
+          sortedFirstPartyImportLines.append(importLine)
+        } else {
+          sortedThirdPartyImportLines.append(importLine)
+        }
+      }
+    }
+    
+    guard let indexOfFirstImport = lines.firstIndex(where: { $0.type == .import }) else {
+      return lines.map({ $0.text })
+    }
+    
+    var typedWithSortedImport = lines.filter({ $0.type != .import })
+    
+    let imports = sortedFirstPartyImportLines + [TypedLine(type: .otherCode, text: "")] + sortedThirdPartyImportLines
+    
+    typedWithSortedImport.insert(contentsOf: imports, at: indexOfFirstImport)
+    return typedWithSortedImport.map({ $0.text })
+  }
 }
 
 // MARK: - Helper Methods
@@ -196,7 +213,7 @@ extension SwiftToolsHelper {
   static func maxOffsetOfFirst(character: Character, in typedLines: [TypedLine]) -> Int {
     
     let maxOffset = typedLines.reduce(0) { result, nextLine in
-
+      
       let text = nextLine.text
       if let index = text.firstIndex(of: character) {
         return max(result, index.utf16Offset(in: text))
@@ -206,4 +223,185 @@ extension SwiftToolsHelper {
     }
     return maxOffset
   }
+  
+  static func appleFrameworks() -> [String] {
+    return ["AppKit",
+            "Bundle Resources",
+            "Foundation",
+            "Swift",
+            "SwiftUI",
+            "TVML",
+            "TVMLKit",
+            "TVUIKit",
+            "UIKit",
+            "WatchKit",
+    
+            "AGL",
+            "ARKit",
+            "ColorSync",
+            "CoreAnimation",
+            "CoreGraphics",
+            "CoreImage",
+            "GameController",
+            "GameKit",
+            "GameplayKit",
+            "GLKit",
+            "ImageIO",
+            "Metal",
+            "MetalPerformanceShaders",
+            "MetalKit",
+            "ModelIO",
+            "OpenGL",
+            "PDFKit",
+            "PencilKit",
+            "Quartz",
+            "RealityKit",
+            "ReplayKit",
+            "SceneKit",
+            "SpriteKit",
+            "Vision",
+            
+            "Accounts",
+            "AddressBook",
+            "AddressBookUI",
+            "ApplicationServices",
+            "AutomaticAssessmentConfiguration",
+            "BackgroundTasks",
+            "BusinessChat",
+            "CallKit",
+            "CareKit",
+            "CarPlay",
+            "ClassKit",
+            "ClockKit",
+            "CloudKit",
+            "Combine",
+            "Contacts",
+            "ContactsUI",
+            "CoreData",
+            "CoreFoundation",
+            "CoreLocation",
+            "CoreML",
+            "CoreMotion",
+            "CoreSpotlight",
+            "CoreText",
+            "CreateML",
+            "DeviceCheck",
+            "EventKit",
+            "EventKitUI",
+            "FileProvider",
+            "FileProviderUI",
+            "HealthKit",
+            "HomeKit",
+            "iAd",
+            "JavaScriptCore",
+            "MapKit",
+            "Messages",
+            "MessageUI",
+            "MultipeerConnectivity",
+            "NaturalLanguage",
+            "NewsstandKit",
+            "NotificationCenter",
+            "PassKit",
+            "PreferencePanes",
+            "PushKit",
+            "QuickLook",
+            "QuickLookThumbnailing",
+            "SafariServices",
+            "SiriKit",
+            "Social",
+            "Speech",
+            "StoreKit",
+            "TVServices",
+            "UserNotifications",
+            "UserNotificationsUI",
+            "WatchConnectivity",
+            "WebKit",
+            
+            "AssetsLibrary",
+            "AudioToolbox",
+            "AudioUnit",
+            "AVFoundation",
+            "AVKit",
+            "CoreAudio",
+            "CoreAudioKit",
+            "CoreAudioTypes",
+            "CoreHaptics",
+            "CoreMedia",
+            "CoreMIDI",
+            "CoreVideo",
+            "ImageCaptureCore",
+            "iTunesLibrary",
+            "MediaPlayer",
+            "MediaAccessibility",
+            "MediaLibrary",
+            "PhotoKit",
+            "QTKit",
+            "ScreenSaver",
+            "SoundAnalysis",
+            "VideoToolbox",
+            "VisionKit",
+            
+            "Accelerate",
+            "CryptoKit",
+            "AuthenticationServices",
+            "CFNetwork",
+            "Collaboration",
+            "Compression",
+            "CoreBluetooth",
+            "CoreNFC",
+            "CoreServices",
+            "CoreTelephony",
+            "CoreWLAN",
+            "CryptoTokenKit",
+            "DarwinNotify",
+            "Device Management",
+            "DiskArbitration",
+            "Dispatch",
+            "dnssd",
+            "DriverKit",
+            "EndpointSecurity",
+            "ExceptionHandling",
+            "ExecutionPolicy",
+            "ExternalAccessory",
+            "FinderSync",
+            "ForceFeedback",
+            "FWAUserLib",
+            "GSS",
+            "HIDDriverKit",
+            "Hypervisor",
+            "InputMethodKit",
+            "IOBluetooth",
+            "IOBluetoothUI",
+            "IOKit",
+            "IOSurface",
+            "IOUSBHost",
+            "Kernel",
+            "LatentSemanticMapping",
+            "LocalAuthentication",
+            "MetricKit",
+            "MobileCoreServices",
+            "Network",
+            "NetworkExtension",
+            "NetworkingDriverKit",
+            "Objective-C Runtime",
+            "OpenDirectory",
+            "os",
+            "OSLog",
+            "PCIDriverKit",
+            "Security",
+            "SecurityFoundation",
+            "SecurityInterface",
+            "SerialDriverKit",
+            "ServiceManagement",
+            "simd",
+            "SystemConfiguration",
+            "SystemExtensions",
+            "USBDriverKit",
+            "USBSerialDriverKit",
+            "vmnet",
+            "XPC",
+    ]
+  }
+  
 }
+
