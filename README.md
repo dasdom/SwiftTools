@@ -62,3 +62,35 @@ and select the tool. The following line is added below the selected line:
 let <#name#> = UIColor(red: 0.686, green: 0.200, blue: 0.820, alpha: 1.000)
 ```
 
+## Sort Imports
+
+Before
+
+```
+import MapKit
+import Foo
+import UIKit
+import Bar
+import Foundation
+```
+
+After
+
+```
+import Foundation
+import MapKit
+import UIKit
+
+import Bar
+import Foo
+```
+
+# Author
+
+Dominik Hauser
+
+[@dasdom](https://twitter.com/dasdom)
+
+# Licence
+
+MIT
