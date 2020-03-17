@@ -164,7 +164,7 @@ extension SwiftToolsHelper {
       } else {
         result = text
       }
-      return result
+      return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     let rawlines = lines.joined(separator: "\n")
     return "protocol <#Protocol Name#> {\n\(rawlines)\n}\n"
@@ -179,7 +179,8 @@ extension SwiftToolsHelper {
     var sortedFirstPartyImportLines: [TypedLine] = []
     var sortedThirdPartyImportLines: [TypedLine] = []
     for importLine in sortedImportLines {
-      if let framework = importLine.text.components(separatedBy: " ").last {
+      if let framework = importLine.text.components(separatedBy: " ").last?.trimmingCharacters(in: .whitespacesAndNewlines) {
+//        print("framework: \(framework)")
         if firstParty.contains(framework) {
           sortedFirstPartyImportLines.append(importLine)
         } else {
@@ -226,7 +227,6 @@ extension SwiftToolsHelper {
   
   static func appleFrameworks() -> [String] {
     return ["AppKit",
-            "Bundle Resources",
             "Foundation",
             "Swift",
             "SwiftUI",
@@ -375,7 +375,7 @@ extension SwiftToolsHelper {
             "IOKit",
             "IOSurface",
             "IOUSBHost",
-            "Kernel",
+            "libkern",
             "LatentSemanticMapping",
             "LocalAuthentication",
             "MetricKit",
@@ -383,7 +383,7 @@ extension SwiftToolsHelper {
             "Network",
             "NetworkExtension",
             "NetworkingDriverKit",
-            "Objective-C Runtime",
+            "ObjectiveC",
             "OpenDirectory",
             "os",
             "OSLog",

@@ -27,6 +27,7 @@ final class ProtocolFromSelectedMethodsTests : XCTestCase {
       TypedLine(type: .startOfMultilineFuncDeclaration, text: "func foo() {"),
       TypedLine(type: .otherCode,                       text: "    return"),
       TypedLine(type: .otherCode,                       text: "}"),
+      TypedLine(type: .otherCode,                       text: ""),
       TypedLine(type: .startOfMultilineFuncDeclaration, text: "func a(a: A,"),
       TypedLine(type: .withinMultilineFuncDeclaration,  text: "       b: B,"),
       TypedLine(type: .endOfMultilineFuncDeclaration,   text: "       c: C) {"),
