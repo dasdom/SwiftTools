@@ -77,17 +77,17 @@ extension SwiftToolsHelper {
       if line.isMatching(regex: "\\*/") {
         if inMultilineComment {
           inMultilineComment = false
-        } else {
-          var tempTypedLines: [TypedLine] = []
-          let indexOfStart = typedLines.lastIndex(where: { $0.type == .startOfMultilineComment }) ?? -1
-          for (index, typedLine) in typedLines.enumerated() {
-            if indexOfStart < index {
-              tempTypedLines.append(TypedLine(type: .withinMultilineComment, text: typedLine.text))
-            } else {
-              tempTypedLines.append(typedLine)
-            }
-          }
-          typedLines = tempTypedLines
+//        } else {
+//          var tempTypedLines: [TypedLine] = []
+//          let indexOfStart = typedLines.lastIndex(where: { $0.type == .startOfMultilineComment }) ?? -1
+//          for (index, typedLine) in typedLines.enumerated() {
+//            if indexOfStart < index {
+//              tempTypedLines.append(TypedLine(type: .withinMultilineComment, text: typedLine.text))
+//            } else {
+//              tempTypedLines.append(typedLine)
+//            }
+//          }
+//          typedLines = tempTypedLines
         }
         typedLines.append(TypedLine(type: .endOfMultilineComment, text: line))
       } else if line.isMatching(regex: "\\*") {
@@ -195,7 +195,16 @@ extension SwiftToolsHelper {
     
     var typedWithSortedImport = lines.filter({ $0.type != .import })
     
-    let imports = sortedFirstPartyImportLines + [TypedLine(type: .otherCode, text: "")] + sortedThirdPartyImportLines
+    var imports: [TypedLine] = []
+    if sortedFirstPartyImportLines.count > 0 {
+      imports.append(contentsOf: sortedFirstPartyImportLines)
+    }
+    if sortedThirdPartyImportLines.count > 0 {
+      if imports.count > 0 {
+        imports.append(TypedLine(type: .otherCode, text: ""))
+      }
+      imports.append(contentsOf: sortedThirdPartyImportLines)
+    }
     
     typedWithSortedImport.insert(contentsOf: imports, at: indexOfFirstImport)
     return typedWithSortedImport.map({ $0.text })
@@ -226,7 +235,7 @@ extension SwiftToolsHelper {
   }
   
   static func appleFrameworks() -> [String] {
-    return ["AppKit",
+    return ["Cocoa",
             "Foundation",
             "Swift",
             "SwiftUI",
