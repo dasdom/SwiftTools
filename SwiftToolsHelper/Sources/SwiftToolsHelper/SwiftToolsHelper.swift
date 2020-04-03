@@ -56,6 +56,18 @@ public struct SwiftToolsHelper {
     return String(format: "%@let <#name#> = UIColor(red: %.3f, green: %.3f, blue: %.3f, alpha: %.3f)", indentString, r, g, b, a)
   }
   
+  public static func uiColorToColorLiteral(for lines: [String]) -> [String] {
+    
+    let typed = typedLines(from: lines)
+    return uiColorToColorLiteral(in: typed)
+  }
+  
+  public static func colorLiteralToUIColor(for lines: [String]) -> [String] {
+    
+    let typed = typedLines(from: lines)
+    return colorLiteralToUIColor(for: typed)
+  }
+  
   public static func sortImport(in lines: [String]) -> [String] {
     
     let typed = typedLines(from: lines)
@@ -104,6 +116,10 @@ extension SwiftToolsHelper {
         typedLines.append(TypedLine(type: .startOfMultilineFuncDeclaration, text: line))
       } else if false == line.isMatching(regex: "\\{") && inMultilineFuncDeclaration {
         typedLines.append(TypedLine(type: .withinMultilineFuncDeclaration, text: line))
+      } else if line.isMatching(regex: "=.*UIColor\\(red:.+green:.+blue:.+alpha:.+\\)") {
+        typedLines.append(TypedLine(type: .uiColorDefinitionRedGreenBlue, text: line))
+      } else if line.isMatching(regex: "=.*#colorLiteral\\(red.+green:.+blue:.+alpha:.+\\)") {
+        typedLines.append(TypedLine(type: .colorLiteralDefinition, text: line))
       } else if line.isMatching(regex: " \\{") && inMultilineFuncDeclaration {
         inMultilineFuncDeclaration = false
         typedLines.append(TypedLine(type: .endOfMultilineFuncDeclaration, text: line))
@@ -122,7 +138,7 @@ extension SwiftToolsHelper {
     
     let normalizedLines = typedLines.map { typedLine -> TypedLine in
       
-      if typedLine.type != .codeWithEquals {
+      if typedLine.type != .codeWithEquals && typedLine.type != .uiColorDefinitionRedGreenBlue {
         return typedLine
       }
       
@@ -134,7 +150,7 @@ extension SwiftToolsHelper {
     let resultLinesText = normalizedLines.map { line -> String in
       
       let text = line.text
-      if line.type != .codeWithEquals {
+      if line.type != .codeWithEquals && line.type != .uiColorDefinitionRedGreenBlue {
         return text
       }
       
@@ -193,7 +209,18 @@ extension SwiftToolsHelper {
       return lines.map({ $0.text })
     }
     
+    guard let indexOfLastImport = lines.lastIndex(where: { $0.type == .import }) else {
+      return lines.map({ $0.text })
+    }
+    
+    
     var typedWithSortedImport = lines.filter({ $0.type != .import })
+
+    if indexOfLastImport - indexOfFirstImport - (sortedFirstPartyImportLines.count + sortedThirdPartyImportLines.count) == 0 {
+      if typedWithSortedImport[indexOfFirstImport].text == "\n" {
+        typedWithSortedImport.remove(at: indexOfFirstImport)
+      }
+    }
     
     var imports: [TypedLine] = []
     if sortedFirstPartyImportLines.count > 0 {
@@ -208,6 +235,32 @@ extension SwiftToolsHelper {
     
     typedWithSortedImport.insert(contentsOf: imports, at: indexOfFirstImport)
     return typedWithSortedImport.map({ $0.text })
+  }
+  
+  static func uiColorToColorLiteral(in lines: [TypedLine]) -> [String] {
+    
+    var result: [String] = []
+    for line in lines {
+      if line.type == .uiColorDefinitionRedGreenBlue {
+        result.append(line.text.replacingOccurrences(of: "UIColor", with: "#colorLiteral"))
+      } else {
+        result.append(line.text)
+      }
+    }
+    return result
+  }
+  
+  static func colorLiteralToUIColor(for lines: [TypedLine]) -> [String] {
+    
+    var result: [String] = []
+    for line in lines {
+      if line.type == .colorLiteralDefinition {
+        result.append(line.text.replacingOccurrences(of: "#colorLiteral", with: "UIColor"))
+      } else {
+        result.append(line.text)
+      }
+    }
+    return result
   }
 }
 

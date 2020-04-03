@@ -32,6 +32,14 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
           buffer.lines.replaceObjects(in: range, withObjectsFrom: changedLines)
         }
       }
+    } else if identifier.hasSuffix(".ColorLiteralToUIColor") {
+      
+      if let lines = lines as? [String] {
+        let result = SwiftToolsHelper.colorLiteralToUIColor(for: lines)
+        buffer.lines.removeAllObjects()
+        buffer.lines.addObjects(from: result)
+      }
+      
     } else if identifier.hasSuffix(".CopyProtocolDeclarationToClipboard") {
       
       if let range = firstSelectedRange(from: selections) {
@@ -101,6 +109,14 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         
         let result = SwiftToolsHelper.hexToUIColor(for: input)
         lines.insert(result, at: startLine+1)
+      }
+      
+    } else if identifier.hasSuffix(".UIColorToColorLiteral") {
+      
+      if let lines = lines as? [String] {
+        let result = SwiftToolsHelper.uiColorToColorLiteral(for: lines)
+        buffer.lines.removeAllObjects()
+        buffer.lines.addObjects(from: result)
       }
       
     } else if identifier.hasSuffix(".SortImports") {

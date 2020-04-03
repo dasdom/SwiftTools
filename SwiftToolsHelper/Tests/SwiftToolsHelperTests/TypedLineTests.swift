@@ -51,24 +51,6 @@ final class TypedLineTests: XCTestCase {
     XCTAssertEqual(expectedResult, result)
   }
   
-  func test_type_multilineCommentAndCode_start() {
-    
-    let input = [
-      "let a  = getA()",
-      "let a  = getA() */",
-      "let a  = getA()",
-    ]
-    
-    let result = SwiftToolsHelper.typedLines(from: input)
-    
-    let expectedResult = [
-      TypedLine(type: .withinMultilineComment, text: "let a  = getA()"),
-      TypedLine(type: .endOfMultilineComment, text: "let a  = getA() */"),
-      TypedLine(type: .codeWithEquals, text: "let a  = getA()"),
-    ]
-    XCTAssertEqual(expectedResult, result)
-  }
-  
   func test_type_multilineCommentAndCode_within() {
     
     let input = [
@@ -169,6 +151,19 @@ final class TypedLineTests: XCTestCase {
       TypedLine(type: .import, text: "import UIKit"),
       TypedLine(type: .import, text: "import Foundation"),
       TypedLine(type: .import, text: "import MapKit"),
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
+  
+  func test_type_uiColorDefinition() {
+    let input = [
+        "let foobarColor = UIColor(red: 1.000, green: 0.627, blue: 0.016, alpha: 0.808)"
+    ]
+    
+    let result = SwiftToolsHelper.typedLines(from: input)
+    
+    let expectedResult = [
+      TypedLine(type: .uiColorDefinitionRedGreenBlue, text: input[0])
     ]
     XCTAssertEqual(expectedResult, result)
   }

@@ -92,4 +92,33 @@ final class AlignEqualTests: XCTestCase {
     XCTAssertEqual(expectedResult, result)
   }
   
+  func test_alignEquals_worksWithColor() {
+    let input = [
+      TypedLine(type: .uiColorDefinitionRedGreenBlue, text: "let foobarColor = UIColor(red: 1.000, green: 0.627, blue: 0.016, alpha: 0.808)"),
+      TypedLine(type: .codeWithEquals, text: "let blabla = getA()"),
+    ]
+    
+    let result = SwiftToolsHelper.alignEquals(in: input)
+    
+    let expectedResult = [
+      "let foobarColor = UIColor(red: 1.000, green: 0.627, blue: 0.016, alpha: 0.808)",
+      "let blabla      = getA()"
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
+  
+  func test_alignEquals_worksWithColorLiteral() {
+    let input = [
+      TypedLine(type: .colorLiteralDefinition, text: "let foobarColor = #colorLiteral(red: 1.000, green: 0.627, blue: 0.016, alpha: 0.808)"),
+      TypedLine(type: .codeWithEquals, text: "let blabla = getA()"),
+    ]
+    
+    let result = SwiftToolsHelper.alignEquals(in: input)
+    
+    let expectedResult = [
+      "let foobarColor = #colorLiteral(red: 1.000, green: 0.627, blue: 0.016, alpha: 0.808)",
+      "let blabla      = getA()"
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
 }

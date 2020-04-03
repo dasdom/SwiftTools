@@ -36,7 +36,7 @@ final class ProtocolFromSelectedMethodsTests : XCTestCase {
     
     let result = SwiftToolsHelper.protocolFromMethods(in: input)
     
-    let expectedResult = "protocol <#Protocol Name#> {\nfunc foo()\nfunc a(a: A,\n       b: B,\n       c: C)\n}\n"
+    let expectedResult = "protocol <#Protocol Name#> {\nfunc foo()\nfunc a(a: A,\nb: B,\nc: C)\n}\n"
     XCTAssertEqual(expectedResult, result)
   }
 }
