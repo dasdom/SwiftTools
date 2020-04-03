@@ -16,7 +16,7 @@
 		F2A524E024018B6E009481D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A524DF24018B6E009481D2 /* Cocoa.framework */; };
 		F2A524E324018B6E009481D2 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A524E224018B6E009481D2 /* SourceEditorExtension.swift */; };
 		F2A524E524018B6E009481D2 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A524E424018B6E009481D2 /* SourceEditorCommand.swift */; };
-		F2A524EA24018B6E009481D2 /* Swift Tools.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2A524DD24018B6E009481D2 /* Swift Tools.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2A524EA24018B6E009481D2 /* Bazinga.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2A524DD24018B6E009481D2 /* Bazinga.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F2A524EA24018B6E009481D2 /* Swift Tools.appex in Embed App Extensions */,
+				F2A524EA24018B6E009481D2 /* Bazinga.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +52,7 @@
 		F2A524D024018B0E009481D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F2A524D224018B0E009481D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2A524D324018B0E009481D2 /* SwiftTools.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftTools.entitlements; sourceTree = "<group>"; };
-		F2A524DD24018B6E009481D2 /* Swift Tools.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Swift Tools.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A524DD24018B6E009481D2 /* Bazinga.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Bazinga.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A524DF24018B6E009481D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F2A524E224018B6E009481D2 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		F2A524E424018B6E009481D2 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				F2A524C324018B0B009481D2 /* SwiftTools.app */,
-				F2A524DD24018B6E009481D2 /* Swift Tools.appex */,
+				F2A524DD24018B6E009481D2 /* Bazinga.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,7 +183,7 @@
 				F22D92B52405D2C80042B1F1 /* SwiftToolsHelper */,
 			);
 			productName = SwiftToolsXcodeExtension;
-			productReference = F2A524DD24018B6E009481D2 /* Swift Tools.appex */;
+			productReference = F2A524DD24018B6E009481D2 /* Bazinga.appex */;
 			productType = "com.apple.product-type.xcode-extension";
 		};
 /* End PBXNativeTarget section */
@@ -466,7 +466,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.SwiftTools.SwiftToolsXcodeExtension;
-				PRODUCT_NAME = "Swift Tools";
+				PRODUCT_NAME = Bazinga;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -489,7 +489,7 @@
 				);
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.SwiftTools.SwiftToolsXcodeExtension;
-				PRODUCT_NAME = "Swift Tools";
+				PRODUCT_NAME = Bazinga;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};

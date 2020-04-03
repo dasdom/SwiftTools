@@ -14,11 +14,13 @@ struct ContentView: View {
 The following tools are included:
 
 - Align equals
+- Color Literal to UIColor
 - Copy Protocol Declarations For Selected Methods To Clipboard
 - Hex to UIColor
+- UIColor to Color Literal
 - Sort Imports
 """)
-      Text("\nTo activate the tools, open System Preferences > Extensions > Xcode Source Editor and check the check box at Swift Tools.")
+      Text("\nTo activate the tools, open System Preferences > Extensions > Xcode Source Editor and check the check box at Bazinga.")
       Spacer()
       Text("You can find the code for this Xcode extension at: https://github.com/dasdom/SwiftTools")
       Text("dominik.hauser@dasdom.de")
