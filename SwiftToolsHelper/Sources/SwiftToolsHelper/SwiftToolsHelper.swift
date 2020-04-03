@@ -127,6 +127,8 @@ extension SwiftToolsHelper {
         typedLines.append(TypedLine(type: .codeWithEquals, text: line))
       } else if line.isMatching(regex: "^import") {
         typedLines.append(TypedLine(type: .import, text: line))
+      } else if line.isMatching(regex: "^@testable import") {
+        typedLines.append(TypedLine(type: .testableImport, text: line))
       } else {
         typedLines.append(TypedLine(type: .otherCode, text: line))
       }
@@ -189,6 +191,7 @@ extension SwiftToolsHelper {
   static func sortImport(in lines: [TypedLine]) -> [String] {
     
     let sortedImportLines = lines.filter({ $0.type == .import }).sorted(by: { $0.text < $1.text })
+    var sortedTestableImportLines = lines.filter({ $0.type == .testableImport }).sorted(by: { $0.text < $1.text })
     
     let firstParty = appleFrameworks()
     
@@ -214,17 +217,34 @@ extension SwiftToolsHelper {
     }
     
     
-    var typedWithSortedImport = lines.filter({ $0.type != .import })
+    var typedWithSortedImport = lines.filter({ $0.type != .import && $0.type != .testableImport })
 
-    if indexOfLastImport - indexOfFirstImport - (sortedFirstPartyImportLines.count + sortedThirdPartyImportLines.count) == 0 {
+    let numberOfNonImportLinesInGroupOfImports =  indexOfLastImport - indexOfFirstImport - (sortedFirstPartyImportLines.count + sortedThirdPartyImportLines.count)
+    
+    if numberOfNonImportLinesInGroupOfImports == 0 {
       if typedWithSortedImport[indexOfFirstImport].text == "\n" {
         typedWithSortedImport.remove(at: indexOfFirstImport)
+      }
+    }
+    
+    if numberOfNonImportLinesInGroupOfImports == 2 {
+      if typedWithSortedImport[indexOfFirstImport].text == "\n" {
+        typedWithSortedImport.remove(at: indexOfFirstImport)
+      }
+      if typedWithSortedImport[indexOfFirstImport+1].text == "\n" {
+        typedWithSortedImport.remove(at: indexOfFirstImport+1)
       }
     }
     
     var imports: [TypedLine] = []
     if sortedFirstPartyImportLines.count > 0 {
       imports.append(contentsOf: sortedFirstPartyImportLines)
+    }
+    if sortedTestableImportLines.count > 0 {
+      if imports.count > 0 {
+        imports.append(TypedLine(type: .otherCode, text: ""))
+      }
+      imports.append(contentsOf: sortedTestableImportLines)
     }
     if sortedThirdPartyImportLines.count > 0 {
       if imports.count > 0 {

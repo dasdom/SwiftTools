@@ -16,6 +16,7 @@ enum LineType : String, Equatable {
   case otherCode
   case codeWithEquals
   case `import`
+  case testableImport
   case uiColorDefinitionRedGreenBlue
   case colorLiteralDefinition
 }
