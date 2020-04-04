@@ -191,7 +191,7 @@ extension SwiftToolsHelper {
   static func sortImport(in lines: [TypedLine]) -> [String] {
     
     let sortedImportLines = lines.filter({ $0.type == .import }).sorted(by: { $0.text < $1.text })
-    var sortedTestableImportLines = lines.filter({ $0.type == .testableImport }).sorted(by: { $0.text < $1.text })
+    let sortedTestableImportLines = lines.filter({ $0.type == .testableImport }).sorted(by: { $0.text < $1.text })
     
     let firstParty = appleFrameworks()
     
