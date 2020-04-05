@@ -405,7 +405,7 @@
 				CODE_SIGN_ENTITLEMENTS = SwiftTools/SwiftTools.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTools/Preview Content\"";
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -431,7 +431,7 @@
 				CODE_SIGN_ENTITLEMENTS = SwiftTools/SwiftTools.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTools/Preview Content\"";
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -455,7 +455,7 @@
 				CODE_SIGN_ENTITLEMENTS = SwiftToolsXcodeExtension/SwiftToolsXcodeExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = SwiftToolsXcodeExtension/Info.plist;
@@ -478,7 +478,7 @@
 				CODE_SIGN_ENTITLEMENTS = SwiftToolsXcodeExtension/SwiftToolsXcodeExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = SwiftToolsXcodeExtension/Info.plist;

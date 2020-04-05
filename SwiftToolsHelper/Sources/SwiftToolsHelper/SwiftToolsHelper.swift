@@ -208,18 +208,18 @@ extension SwiftToolsHelper {
       }
     }
     
-    guard let indexOfFirstImport = lines.firstIndex(where: { $0.type == .import }) else {
+    guard let indexOfFirstImport = lines.firstIndex(where: { $0.type == .import || $0.type == .testableImport }) else {
       return lines.map({ $0.text })
     }
     
-    guard let indexOfLastImport = lines.lastIndex(where: { $0.type == .import }) else {
+    guard let indexOfLastImport = lines.lastIndex(where: { $0.type == .import || $0.type == .testableImport }) else {
       return lines.map({ $0.text })
     }
     
     
     var typedWithSortedImport = lines.filter({ $0.type != .import && $0.type != .testableImport })
 
-    let numberOfNonImportLinesInGroupOfImports =  indexOfLastImport - indexOfFirstImport - (sortedFirstPartyImportLines.count + sortedThirdPartyImportLines.count)
+    let numberOfNonImportLinesInGroupOfImports =  indexOfLastImport - indexOfFirstImport - (sortedFirstPartyImportLines.count + sortedThirdPartyImportLines.count + sortedTestableImportLines.count)
     
     if numberOfNonImportLinesInGroupOfImports == 0 {
       if typedWithSortedImport[indexOfFirstImport].text == "\n" {
@@ -482,6 +482,8 @@ extension SwiftToolsHelper {
             "USBSerialDriverKit",
             "vmnet",
             "XPC",
+            
+            "XCTest",
     ]
   }
   
