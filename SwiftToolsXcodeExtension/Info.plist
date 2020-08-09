@@ -76,6 +76,14 @@
 					<key>XCSourceEditorCommandName</key>
 					<string>Sort Imports</string>
 				</dict>
+				<dict>
+					<key>XCSourceEditorCommandClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
+					<key>XCSourceEditorCommandIdentifier</key>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).SelectPlaceholder</string>
+					<key>XCSourceEditorCommandName</key>
+					<string>Select Matching Placeholder</string>
+				</dict>
 			</array>
 			<key>XCSourceEditorExtensionPrincipalClass</key>
 			<string>$(PRODUCT_MODULE_NAME).SourceEditorExtension</string>

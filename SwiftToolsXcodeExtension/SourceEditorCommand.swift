@@ -126,6 +126,38 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         buffer.lines.removeAllObjects()
         buffer.lines.addObjects(from: result)
       }
+    } else if identifier.hasSuffix(".SelectPlaceholder") {
+      
+      guard let selectedText = firstSelectedText(from: selections, in: lines) else {
+        return
+      }
+      
+      guard let stringLines = lines as? [NSString] else {
+        return
+      }
+      
+      for (index, line) in stringLines.enumerated() {
+        
+        var range = NSRange(location: 0, length: 0)
+        var rangeToCompare = NSRange(location: 0, length: line.length)
+        
+        repeat {
+          
+          range = line.range(of: selectedText, options: .backwards, range: rangeToCompare)
+          
+          if range.length > 0 {
+            let start = XCSourceTextPosition(line: index, column: range.location)
+            let end = XCSourceTextPosition(line: index, column: range.location + range.length)
+            let selection = XCSourceTextRange(start: start, end: end)
+            
+            selections.add(selection)
+            
+            rangeToCompare = NSRange(location: 0, length: range.location)
+          }
+          
+        } while range.length > 0
+        
+      }
     }
   }
   
@@ -139,4 +171,22 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
     return nil
   }
   
+  
+  func firstSelectedText(from selections: NSArray, in lines: NSArray) -> String? {
+    
+    guard let firstSelection = selections.firstObject as? XCSourceTextRange else {
+      return nil
+    }
+    
+    
+    guard let line = lines[firstSelection.start.line] as? NSString else {
+      return nil
+    }
+    
+    let start = firstSelection.start
+    let end = firstSelection.end
+    let range = NSRange(location: start.column, length: end.column - start.column)
+    
+    return line.substring(with: range)
+  }
 }

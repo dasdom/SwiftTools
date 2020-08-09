@@ -167,4 +167,17 @@ final class TypedLineTests: XCTestCase {
     ]
     XCTAssertEqual(expectedResult, result)
   }
+  
+  func test_type_placeholder() {
+    let input = [
+      "let foobar = <#name#>"
+    ]
+    
+    let result = SwiftToolsHelper.typedLines(from: input)
+    
+    let expectedResult = [
+      TypedLine(type: .placeHolder, text: input[0])
+    ]
+    XCTAssertEqual(expectedResult, result)
+  }
 }

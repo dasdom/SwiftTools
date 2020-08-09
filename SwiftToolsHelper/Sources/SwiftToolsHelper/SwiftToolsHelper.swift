@@ -123,6 +123,8 @@ extension SwiftToolsHelper {
       } else if line.isMatching(regex: " \\{") && inMultilineFuncDeclaration {
         inMultilineFuncDeclaration = false
         typedLines.append(TypedLine(type: .endOfMultilineFuncDeclaration, text: line))
+      } else if line.isMatching(regex: "#>") && line.isMatching(regex: "<#") {
+        typedLines.append(TypedLine(type: .placeHolder, text: line))
       } else if line.isMatching(regex: "\\s+=\\s+") {
         typedLines.append(TypedLine(type: .codeWithEquals, text: line))
       } else if line.isMatching(regex: "^import") {
