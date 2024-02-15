@@ -9,7 +9,12 @@ public struct SwiftToolsHelper {
     let typed = typedLines(from: lines)
     return alignEquals(in: typed)
   }
-  
+
+  public static func sort(in lines: [String]) -> [String] {
+    let typed = typedLines(from: lines)
+    return sort(in: typed)
+  }
+
   public static func protocolFromMethods(in lines: [String]) {
     
     let typed = typedLines(from: lines)
@@ -258,7 +263,11 @@ extension SwiftToolsHelper {
     typedWithSortedImport.insert(contentsOf: imports, at: indexOfFirstImport)
     return typedWithSortedImport.map({ $0.text })
   }
-  
+ 
+  static func sort(in lines: [TypedLine]) -> [String] {
+    return lines.sorted(by: { $0.text < $1.text }).map({ $0.text })
+  }
+
   static func uiColorToColorLiteral(in lines: [TypedLine]) -> [String] {
     
     var result: [String] = []

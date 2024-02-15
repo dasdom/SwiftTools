@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,8 +15,10 @@
 		F2A524E024018B6E009481D2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A524DF24018B6E009481D2 /* Cocoa.framework */; };
 		F2A524E324018B6E009481D2 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A524E224018B6E009481D2 /* SourceEditorExtension.swift */; };
 		F2A524E524018B6E009481D2 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A524E424018B6E009481D2 /* SourceEditorCommand.swift */; };
-		F2A524EA24018B6E009481D2 /* Bazinga.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2A524DD24018B6E009481D2 /* Bazinga.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2A524EA24018B6E009481D2 /* CodeTools.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2A524DD24018B6E009481D2 /* CodeTools.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F2D4B6CE2437D040002139BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2A524CA24018B0E009481D2 /* Assets.xcassets */; };
+		F2E1047825CE90EB0043B391 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E1047725CE90EB0043B391 /* XcodeKit.framework */; };
+		F2E1047925CE90EB0043B391 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2E1047725CE90EB0043B391 /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,15 +38,26 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F2A524EA24018B6E009481D2 /* Bazinga.appex in Embed App Extensions */,
+				F2A524EA24018B6E009481D2 /* CodeTools.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2E1047A25CE90EB0043B391 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F2E1047925CE90EB0043B391 /* XcodeKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F2A524C324018B0B009481D2 /* Bazinga!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bazinga!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A524C324018B0B009481D2 /* CodeTools!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CodeTools!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A524C624018B0B009481D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2A524C824018B0B009481D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F2A524CA24018B0E009481D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,13 +65,14 @@
 		F2A524D024018B0E009481D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F2A524D224018B0E009481D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2A524D324018B0E009481D2 /* SwiftTools.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftTools.entitlements; sourceTree = "<group>"; };
-		F2A524DD24018B6E009481D2 /* Bazinga.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Bazinga.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A524DD24018B6E009481D2 /* CodeTools.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CodeTools.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A524DF24018B6E009481D2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F2A524E224018B6E009481D2 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		F2A524E424018B6E009481D2 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
 		F2A524E624018B6E009481D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2A524E724018B6E009481D2 /* SwiftToolsXcodeExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftToolsXcodeExtension.entitlements; sourceTree = "<group>"; };
 		F2A524EF24018DA2009481D2 /* SwiftToolsHelper */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftToolsHelper; sourceTree = "<group>"; };
+		F2E1047725CE90EB0043B391 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2E1047825CE90EB0043B391 /* XcodeKit.framework in Frameworks */,
 				F22D92B62405D2C80042B1F1 /* SwiftToolsHelper in Frameworks */,
 				F2A524E024018B6E009481D2 /* Cocoa.framework in Frameworks */,
 			);
@@ -95,8 +110,8 @@
 		F2A524C424018B0B009481D2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F2A524C324018B0B009481D2 /* Bazinga!.app */,
-				F2A524DD24018B6E009481D2 /* Bazinga.appex */,
+				F2A524C324018B0B009481D2 /* CodeTools!.app */,
+				F2A524DD24018B6E009481D2 /* CodeTools.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -126,6 +141,7 @@
 		F2A524DE24018B6E009481D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2E1047725CE90EB0043B391 /* XcodeKit.framework */,
 				F2A524DF24018B6E009481D2 /* Cocoa.framework */,
 			);
 			name = Frameworks;
@@ -163,7 +179,7 @@
 			packageProductDependencies = (
 			);
 			productName = SwiftTools;
-			productReference = F2A524C324018B0B009481D2 /* Bazinga!.app */;
+			productReference = F2A524C324018B0B009481D2 /* CodeTools!.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F2A524DC24018B6E009481D2 /* SwiftToolsXcodeExtension */ = {
@@ -173,6 +189,7 @@
 				F2A524D924018B6E009481D2 /* Sources */,
 				F2A524DA24018B6E009481D2 /* Frameworks */,
 				F2A524DB24018B6E009481D2 /* Resources */,
+				F2E1047A25CE90EB0043B391 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -183,7 +200,7 @@
 				F22D92B52405D2C80042B1F1 /* SwiftToolsHelper */,
 			);
 			productName = SwiftToolsXcodeExtension;
-			productReference = F2A524DD24018B6E009481D2 /* Bazinga.appex */;
+			productReference = F2A524DD24018B6E009481D2 /* CodeTools.appex */;
 			productType = "com.apple.product-type.xcode-extension";
 		};
 /* End PBXNativeTarget section */
@@ -403,9 +420,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SwiftTools/SwiftTools.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTools/Preview Content\"";
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -415,10 +433,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.SwiftTools;
-				PRODUCT_NAME = "Bazinga!";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.Bazinga;
+				PRODUCT_NAME = "CodeTools!";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -429,9 +448,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SwiftTools/SwiftTools.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTools/Preview Content\"";
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -441,10 +461,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.SwiftTools;
-				PRODUCT_NAME = "Bazinga!";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.Bazinga;
+				PRODUCT_NAME = "CodeTools!";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -453,9 +474,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SwiftToolsXcodeExtension/SwiftToolsXcodeExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = SwiftToolsXcodeExtension/Info.plist;
@@ -464,9 +486,11 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.SwiftTools.SwiftToolsXcodeExtension;
-				PRODUCT_NAME = Bazinga;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.Bazinga.SwiftToolsXcodeExtension;
+				PRODUCT_NAME = CodeTools;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -476,9 +500,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SwiftToolsXcodeExtension/SwiftToolsXcodeExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = Q6PD97MRX4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = SwiftToolsXcodeExtension/Info.plist;
@@ -487,9 +512,11 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.SwiftTools.SwiftToolsXcodeExtension;
-				PRODUCT_NAME = Bazinga;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dasdom.Bazinga.SwiftToolsXcodeExtension;
+				PRODUCT_NAME = CodeTools;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};

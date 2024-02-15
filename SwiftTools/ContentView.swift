@@ -20,7 +20,7 @@ The following tools are included:
 - UIColor to Color Literal
 - Sort Imports
 """)
-      Text("\nTo activate the tools, open System Preferences > Extensions > Xcode Source Editor and check the check box at Bazinga.")
+      Text("\nTo activate the tools, open System Preferences > Extensions > Xcode Source Editor and check the check box at CodeTools.")
       Spacer()
       Text("You can find the code for this Xcode extension at: https://github.com/dasdom/SwiftTools")
       Text("dominik.hauser@dasdom.de")

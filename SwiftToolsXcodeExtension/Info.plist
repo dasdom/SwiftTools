@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Bazinga</string>
+	<string>CodeTools</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -75,6 +75,14 @@
 					<string>$(PRODUCT_BUNDLE_IDENTIFIER).SortImports</string>
 					<key>XCSourceEditorCommandName</key>
 					<string>Sort Imports</string>
+				</dict>
+				<dict>
+					<key>XCSourceEditorCommandClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
+					<key>XCSourceEditorCommandIdentifier</key>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).SortSelected</string>
+					<key>XCSourceEditorCommandName</key>
+					<string>Sort Selected</string>
 				</dict>
 				<dict>
 					<key>XCSourceEditorCommandClassName</key>
