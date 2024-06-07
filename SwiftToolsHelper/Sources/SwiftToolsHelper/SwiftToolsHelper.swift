@@ -79,18 +79,38 @@ public struct SwiftToolsHelper {
     return sortImport(in: typed)
   }
   
+  public static func sortFunctions(in lines: [String]) -> [String] {
+    _ = typedLines(from: lines)
+    var newLines = nonEmptyOutsideOfFunction.map({ $0.text })
+    if newLines.count > 0 {
+      newLines += ["\n"]
+    }
+    for function in functions.sorted(by: { $0.name < $1.name }) {
+      newLines += function.lines()
+      newLines += ["\n"]
+    }
+    return newLines
+  }
 }
 
 extension SwiftToolsHelper {
   
+  static var functions: [Function] = []
+  static var nonEmptyOutsideOfFunction: [TypedLine] = []
+
   static func typedLines(from lines: [String]) -> [TypedLine] {
     
     var typedLines: [TypedLine] = []
     var inMultilineComment = false
     var inMultilineFuncDeclaration = false
-    
+    var scopeCount = 0
+//    var inFunction = false
+    var functionComment: [TypedLine] = []
+    var currentFunction: Function?
+//    var functions: [Function] = []
+//    var nonEmptyOutsideOfFunction: [TypedLine] = []
+
     for line in lines {
-      
       if line.isMatching(regex: "\\*/") {
         if inMultilineComment {
           inMultilineComment = false
@@ -106,38 +126,131 @@ extension SwiftToolsHelper {
 //          }
 //          typedLines = tempTypedLines
         }
-        typedLines.append(TypedLine(type: .endOfMultilineComment, text: line))
-      } else if line.isMatching(regex: "\\*") {
+        let typedLine = TypedLine(type: .endOfMultilineComment, text: line)
+        typedLines.append(typedLine)
+        functionComment.append(typedLine)
+
+      } else if line.isMatching(regex: "/\\*") {
         inMultilineComment = true
-        typedLines.append(TypedLine(type: .startOfMultilineComment, text: line))
+        let typedLine = TypedLine(type: .startOfMultilineComment, text: line)
+        typedLines.append(typedLine)
+        functionComment.append(typedLine)
+
       } else if inMultilineComment {
-        typedLines.append(TypedLine(type: .withinMultilineComment, text: line))
-      } else if line.isMatching(regex: "/{2,}") {
-        typedLines.append(TypedLine(type: .inlineComment, text: line))
+        let typedLine = TypedLine(type: .withinMultilineComment, text: line)
+        typedLines.append(typedLine)
+        functionComment.append(typedLine)
+
+      } else if line.isMatching(regex: "$.*/{2,}") {
+        let typedLine = TypedLine(type: .inlineComment, text: line)
+        typedLines.append(typedLine)
+        functionComment.append(typedLine)
+
       } else if line.isMatching(regex: "(func).+\\{") {
-        typedLines.append(TypedLine(type: .inlineFuncDeclaration, text: line))
+        let typedLine = TypedLine(type: .inlineFuncDeclaration, text: line)
+        typedLines.append(typedLine)
+        currentFunction = Function(name: line, comments: functionComment)
+
+        functionComment = []
+
       } else if line.isMatching(regex: "(func).+\\(") {
         inMultilineFuncDeclaration = true
-        typedLines.append(TypedLine(type: .startOfMultilineFuncDeclaration, text: line))
+        let typedLine = TypedLine(type: .startOfMultilineFuncDeclaration, text: line)
+        typedLines.append(typedLine)
+        currentFunction = Function(name: line, comments: functionComment)
+
+        functionComment = []
+
       } else if false == line.isMatching(regex: "\\{") && inMultilineFuncDeclaration {
-        typedLines.append(TypedLine(type: .withinMultilineFuncDeclaration, text: line))
+        let typedLine = TypedLine(type: .withinMultilineFuncDeclaration, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
       } else if line.isMatching(regex: "=.*UIColor\\(red:.+green:.+blue:.+alpha:.+\\)") {
-        typedLines.append(TypedLine(type: .uiColorDefinitionRedGreenBlue, text: line))
+        let typedLine = TypedLine(type: .uiColorDefinitionRedGreenBlue, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
       } else if line.isMatching(regex: "=.*#colorLiteral\\(red.+green:.+blue:.+alpha:.+\\)") {
-        typedLines.append(TypedLine(type: .colorLiteralDefinition, text: line))
+        let typedLine = TypedLine(type: .colorLiteralDefinition, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
       } else if line.isMatching(regex: " \\{") && inMultilineFuncDeclaration {
         inMultilineFuncDeclaration = false
-        typedLines.append(TypedLine(type: .endOfMultilineFuncDeclaration, text: line))
+        let typedLine = TypedLine(type: .endOfMultilineFuncDeclaration, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
       } else if line.isMatching(regex: "#>") && line.isMatching(regex: "<#") {
-        typedLines.append(TypedLine(type: .placeHolder, text: line))
-      } else if line.isMatching(regex: "\\s+=\\s+") {
-        typedLines.append(TypedLine(type: .codeWithEquals, text: line))
+        let typedLine = TypedLine(type: .placeHolder, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
+      } else if line.isMatching(regex: "\\s+=\\s+") && false == line.isMatching(regex: ".if.") {
+        let typedLine = TypedLine(type: .codeWithEquals, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
       } else if line.isMatching(regex: "^import") {
-        typedLines.append(TypedLine(type: .import, text: line))
+        let typedLine = TypedLine(type: .import, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
       } else if line.isMatching(regex: "^@testable import") {
-        typedLines.append(TypedLine(type: .testableImport, text: line))
+        let typedLine = TypedLine(type: .testableImport, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
+      } else if line.isMatching(regex: "\\}.*if.*\\{") {
+        let typedLine = TypedLine(type: .otherCode, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
+      } else if line.isMatching(regex: " \\{") && false == line.isMatching(regex: "\\}") && nil != currentFunction {
+        scopeCount += 1
+        let typedLine = TypedLine(type: .otherCode, text: line)
+        typedLines.append(typedLine)
+
+      } else if line.isMatching(regex: "\\}") && nil != currentFunction {
+        if scopeCount == 0 {
+          let typedLine = TypedLine(type: .endOfFunc, text: line)
+          typedLines.append(typedLine)
+          if let currentFunction {
+            currentFunction.typedLines.append(typedLine)
+            functions.append(currentFunction)
+          }
+          currentFunction = nil
+        } else {
+          let typedLine = TypedLine(type: .otherCode, text: line)
+          typedLines.append(typedLine)
+          scopeCount -= 1
+        }
+
       } else {
-        typedLines.append(TypedLine(type: .otherCode, text: line))
+        let typedLine = TypedLine(type: .otherCode, text: line)
+        typedLines.append(typedLine)
+
+        functionComment = []
+
+      }
+
+      if line.isMatching(regex: "^\\s*$") && line != "\n" && nil == currentFunction {
+        let typedLine = TypedLine(type: .otherCode, text: line)
+        nonEmptyOutsideOfFunction.append(typedLine)
+      }
+      if let currentFunction,
+         let typedLine = typedLines.last {
+        currentFunction.typedLines.append(typedLine)
       }
     }
     return typedLines

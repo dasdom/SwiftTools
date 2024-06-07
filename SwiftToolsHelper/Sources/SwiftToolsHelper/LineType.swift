@@ -13,6 +13,7 @@ enum LineType : String, Equatable {
   case startOfMultilineFuncDeclaration
   case endOfMultilineFuncDeclaration
   case withinMultilineFuncDeclaration
+  case endOfFunc
   case otherCode
   case codeWithEquals
   case `import`

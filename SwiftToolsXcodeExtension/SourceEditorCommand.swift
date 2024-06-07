@@ -136,6 +136,16 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
           buffer.lines.replaceObjects(in: range, withObjectsFrom: changedLines)
         }
       }
+    } else if identifier.hasSuffix(".SortSelectedFunctions") {
+
+      if let range = firstSelectedRange(from: selections) {
+        if let lines = Array(lines.subarray(with: range)) as? [String] {
+
+          let changedLines = SwiftToolsHelper.sortFunctions(in: lines)
+
+          buffer.lines.replaceObjects(in: range, withObjectsFrom: changedLines)
+        }
+      }
       
     } else if identifier.hasSuffix(".SelectPlaceholder") {
 

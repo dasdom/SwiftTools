@@ -88,6 +88,14 @@
 					<key>XCSourceEditorCommandClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
 					<key>XCSourceEditorCommandIdentifier</key>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).SortSelectedFunctions</string>
+					<key>XCSourceEditorCommandName</key>
+					<string>Sort Selected Functions</string>
+				</dict>
+				<dict>
+					<key>XCSourceEditorCommandClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
+					<key>XCSourceEditorCommandIdentifier</key>
 					<string>$(PRODUCT_BUNDLE_IDENTIFIER).SelectPlaceholder</string>
 					<key>XCSourceEditorCommandName</key>
 					<string>Select Matching Placeholder</string>
