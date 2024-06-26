@@ -107,7 +107,9 @@ extension SwiftToolsHelper {
 //    var inFunction = false
     var functionComment: [TypedLine] = []
     var currentFunction: Function?
-//    var functions: [Function] = []
+
+    functions = []
+    nonEmptyOutsideOfFunction = []
 //    var nonEmptyOutsideOfFunction: [TypedLine] = []
 
     for line in lines {
