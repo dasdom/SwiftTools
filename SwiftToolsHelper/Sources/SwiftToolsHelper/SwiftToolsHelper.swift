@@ -81,14 +81,21 @@ public struct SwiftToolsHelper {
   
   public static func sortFunctions(in lines: [String]) -> [String] {
     _ = typedLines(from: lines)
-    var newLines = nonEmptyOutsideOfFunction.map({ $0.text })
-    if newLines.count > 0 {
+    var newLines = aboveFunctions.map({ $0.text })
+
+    newLines += nonEmptyOutsideOfFunction.map({ $0.text })
+    if nonEmptyOutsideOfFunction.count > 0 {
       newLines += ["\n"]
     }
     for function in functions.sorted(by: { $0.name < $1.name }) {
       newLines += function.lines()
       newLines += ["\n"]
     }
+    if functions.count > 0 {
+      newLines.removeLast()
+    }
+
+    newLines += afterFunctions.map({ $0.text })
     return newLines
   }
 }
@@ -96,7 +103,9 @@ public struct SwiftToolsHelper {
 extension SwiftToolsHelper {
   
   static var functions: [Function] = []
+  static var aboveFunctions: [TypedLine] = []
   static var nonEmptyOutsideOfFunction: [TypedLine] = []
+  static var afterFunctions: [TypedLine] = []
 
   static func typedLines(from lines: [String]) -> [TypedLine] {
     
@@ -107,12 +116,18 @@ extension SwiftToolsHelper {
 //    var inFunction = false
     var functionComment: [TypedLine] = []
     var currentFunction: Function?
+    var endOfFunction = false
 
     functions = []
+    aboveFunctions = []
     nonEmptyOutsideOfFunction = []
+    afterFunctions = []
+
 //    var nonEmptyOutsideOfFunction: [TypedLine] = []
 
     for line in lines {
+      endOfFunction = false
+
       if line.isMatching(regex: "\\*/") {
         if inMultilineComment {
           inMultilineComment = false
@@ -230,8 +245,12 @@ extension SwiftToolsHelper {
           if let currentFunction {
             currentFunction.typedLines.append(typedLine)
             functions.append(currentFunction)
+            let nonEmptyLines = afterFunctions.filter({ $0.text.isMatching(regex: "^.*\\S+.*$") })
+            nonEmptyOutsideOfFunction.append(contentsOf: nonEmptyLines)
+            afterFunctions = []
           }
           currentFunction = nil
+          endOfFunction = true
         } else {
           let typedLine = TypedLine(type: .otherCode, text: line)
           typedLines.append(typedLine)
@@ -246,10 +265,18 @@ extension SwiftToolsHelper {
 
       }
 
-      if line.isMatching(regex: "^\\s*$") && line != "\n" && nil == currentFunction {
+      if functions.isEmpty && nil == currentFunction {
         let typedLine = TypedLine(type: .otherCode, text: line)
-        nonEmptyOutsideOfFunction.append(typedLine)
+        aboveFunctions.append(typedLine)
+//      } else if line.isMatching(regex: "^.*\\S+.*$") && line != "\n" && nil == currentFunction && false == endOfFunction {
+//        let typedLine = TypedLine(type: .otherCode, text: line)
+//        nonEmptyOutsideOfFunction.append(typedLine)
       }
+      if false == functions.isEmpty && nil == currentFunction && false == endOfFunction {
+        let typedLine = TypedLine(type: .otherCode, text: line)
+        afterFunctions.append(typedLine)
+      }
+
       if let currentFunction,
          let typedLine = typedLines.last {
         currentFunction.typedLines.append(typedLine)
